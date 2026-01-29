@@ -18,6 +18,11 @@ BASE_DIR = Path (__file__).resolve ().parent.parent
 
 CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
+# ===== Cloudinary settings para PDFs públicos =====
+CLOUDINARY_STORAGE = {
+    "RESOURCE_TYPE": "raw",      # PDFs como archivos (no imágenes)
+    "SECURE": True,              # HTTPS
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
