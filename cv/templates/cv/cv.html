@@ -486,6 +486,34 @@
                 color: #4b5563 !important;
             }
             
+            /* ================== FIX PDF PROYECTOS ================== */
+
+            #proyectos {
+                display: block !important;
+                page-break-inside: auto !important;
+            }
+
+            #proyectos .row {
+                display: block !important;
+            }
+
+            #proyectos .col-md-6,
+            #proyectos .col-md-4,
+            #proyectos .col-sm-6 {
+                width: 100% !important;
+                display: block !important;
+                float: none !important;
+                page-break-inside: avoid !important;
+            }
+
+            #proyectos .card {
+                display: block !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 20px !important;
+                box-shadow: none !important;
+                border: 1px solid #e5e7eb !important;
+            }
         }
         
         .reference-item {
