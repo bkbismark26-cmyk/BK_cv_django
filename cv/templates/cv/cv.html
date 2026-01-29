@@ -937,52 +937,45 @@
                             </small>
 
                             {% if cert.archivo %}
-                                {% with cert.archivo.url as u %}
-                                    {% if "image/upload" in u %}
-                                        {% with u|cut:"image/upload" as after %}
-                                            {% with u|cut:after as before %}
-                                                {% with before|add:"raw/upload"|add:after as pdf_url %}
-                                                    <div class="mt-3 d-flex justify-content-center gap-2">
-                                                        <a href="{{ pdf_url }}" target="_blank" class="btn btn-sm btn-outline-danger">
-                                                            👁️ Ver PDF
-                                                        </a>
-                                                        <a href="{{ pdf_url }}" download class="btn btn-sm btn-outline-success">
-                                                            ⬇️ Descargar
-                                                        </a>
-                                                    </div>
-                                                {% endwith %}
-                                            {% endwith %}
-                                        {% endwith %}
-                                    {% else %}
-                                        <div class="mt-3 d-flex justify-content-center gap-2">
-                                            <a href="{{ u }}" target="_blank" class="btn btn-sm btn-outline-danger">
-                                                👁️ Ver PDF
-                                            </a>
-                                            <a href="{{ u }}" download class="btn btn-sm btn-outline-success">
-                                                ⬇️ Descargar
-                                            </a>
-                                        </div>
-                                    {% endif %}
-                                {% endwith %}
+                            <div class="mt-3 d-flex justify-content-center gap-2">
+
+                                <!-- VER PDF -->
+                                <a
+                                    href="{{ cert.archivo.url }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-danger"
+                                >
+                                    👁️ Ver PDF
+                                </a>
+
+                                <!-- DESCARGAR PDF -->
+                                <a
+                                    href="{{ cert.archivo.url }}"
+                                    download
+                                    class="btn btn-sm btn-outline-success"
+                                >
+                                    ⬇️ Descargar
+                                </a>
+
+                            </div>
                             {% else %}
                                 <p class="text-muted mt-3">
                                     PDF no disponible
                                 </p>
                             {% endif %}
-
                         </div>
+
                     </div>
                 </div>
                 {% empty %}
-                    <div class="col-12">
-                        <p class="text-muted">No hay certificados cargados.</p>
-                    </div>
+                    <p class="text-muted">
+                        No hay certificados cargados.
+                    </p>
                 {% endfor %}
 
             </div>
         </div>
     </section>
-
 
     <!-- PROYECTOS -->
     <section id = "proyectos" class = "mb-4 reveal">
