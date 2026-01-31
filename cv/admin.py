@@ -64,11 +64,14 @@ class CertificadoInline(admin.TabularInline):
     model = Certificado
     extra = 0
     
-class ProyectoInline(admin.TabularInline):
+class ProyectoInline(admin.StackedInline):
     model = Proyecto
     extra = 0
-    fields = ("nombre", "tecnologias", "github", "demo")
+    fields = ("nombre", "descripcion", "tecnologias", "github", "demo")
 
+    formfield_overrides = {
+        models.TextField: {"widget": Textarea(attrs={"rows": 3, "cols": 60})},
+    }
 
 @admin.register(Perfil)
 class PerfilAdmin(admin.ModelAdmin):
