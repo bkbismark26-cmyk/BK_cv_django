@@ -63,6 +63,11 @@ class VentaGarageInline(admin.TabularInline):
 class CertificadoInline(admin.TabularInline):
     model = Certificado
     extra = 0
+    
+class ProyectoInline(admin.TabularInline):
+    model = Proyecto
+    extra = 0
+    fields = ("nombre", "tecnologias", "github", "demo")
 
 
 @admin.register(Perfil)
@@ -81,6 +86,7 @@ class PerfilAdmin(admin.ModelAdmin):
         ProductoLaboralInline,
         VentaGarageInline,
         CertificadoInline,
+        ProyectoInline, 
     ]
 
     def nombre_completo(self, obj):
