@@ -41,3 +41,4 @@ class Command(BaseCommand):
 
         msg = f"Unique superuser '{username}' ensured. Demoted {demoted} other superuser(s)."
         self.stdout.write(self.style.SUCCESS(msg))
+
