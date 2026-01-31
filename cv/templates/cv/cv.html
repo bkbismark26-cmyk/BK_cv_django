@@ -5,7 +5,7 @@
     <meta charset = "UTF-8">
 
     <title> 
-        {{ perfil.nombre }} | CV 
+        {{ perfil.nnombres }} {{ perfil.apellidos }}
     </title>
 
     <!-- Bootstrap -->
@@ -717,6 +717,22 @@
                     <a class = "nav-link" href = "#certificados"> Certificados </a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link" href="#reconocimientos">Reconocimientos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#cursos">Cursos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#productos-academicos">Productos Académicos</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#productos-laborales">Productos Laborales</a>
+                </li>
+
                 <li class = "nav-item">
                     <a class = "nav-link" href = "#proyectos"> Proyectos </a>
                 </li>
@@ -755,7 +771,7 @@
                 </div>
 
                 <div class = "col-md-9"> 
-                    <h1 class = "mb-0"> {{ perfil.nombre }} </h1>
+                    <h1 class = "mb-0"> {{ perfil.nnombres }} {{ perfil.apellidos }} </h1>
                     <h4 class = "text-primary"> {{ perfil.profesion }} </h4>
                     <p class = "mt-3"> {{ perfil.descripcion|linebreaksbr }} </p>
 
@@ -766,11 +782,11 @@
                     <div class = "d-flex align-items-center gap-3 mt-2">
     
                     <a href = "{{ perfil.linkedin }}" target = "_blank" class = "text-decoration-none d-flex align-items-center">
-                        <i class = "bi bi-linkedin me-1"> </i> {{ perfil.nombre }}
+                        <i class = "bi bi-linkedin me-1"> </i> {{ perfil.nnombres }} {{ perfil.apellidos }}
                     </a>
 
                     <a href = "{{ perfil.github }}" target = "_blank" class = "text-decoration-none d-flex align-items-center">
-                        <i class = "bi bi-github me-1"> </i> {{ perfil.nombre }}
+                        <i class = "bi bi-github me-1"> </i> {{ perfil.nnombres }} {{ perfil.apellidos }}
                     </a>
 
                 </div>
@@ -974,22 +990,22 @@
                                 {{ cert.institucion }}
                             </small>
 
-                            {% if cert.archivo %}
+                            {% if cert.drive_file_id or cert.drive_share_url %}
                             <div class="mt-3 d-flex justify-content-center gap-2">
 
-                                <!-- VER PDF -->
+                                <!-- VER (abre el visor de Drive) -->
                                 <a
-                                    href="{{ cert.archivo.url }}"
+                                    href="{% if cert.drive_file_id %}https://drive.google.com/file/d/{{ cert.drive_file_id }}/view?usp=sharing{% else %}{{ cert.drive_share_url }}{% endif %}"
                                     target="_blank"
                                     class="btn btn-sm btn-outline-danger"
                                 >
                                     👁️ Ver PDF
                                 </a>
 
-                                <!-- DESCARGAR PDF -->
+                                <!-- DESCARGAR (descarga directa si hay drive_file_id) -->
                                 <a
-                                    href="{{ cert.archivo.url }}"
-                                    download
+                                    href="{% if cert.drive_file_id %}https://drive.google.com/uc?export=download&id={{ cert.drive_file_id }}{% else %}{{ cert.drive_share_url }}{% endif %}"
+                                    target="_blank"
                                     class="btn btn-sm btn-outline-success"
                                 >
                                     ⬇️ Descargar
@@ -997,10 +1013,9 @@
 
                             </div>
                             {% else %}
-                                <p class="text-muted mt-3">
-                                    PDF no disponible
-                                </p>
+                            <p class="text-muted mt-3">PDF no disponible</p>
                             {% endif %}
+
                         </div>
 
                     </div>
@@ -1012,6 +1027,114 @@
                 {% endfor %}
 
             </div>
+        </div>
+    </section>
+
+    <!-- RECONOCIMIENTOS -->
+    <section id="reconocimientos" class="mb-4 reveal">
+        <div class="card shadow p-4">
+            <h3 class="section-title">🏅 Reconocimientos</h3>
+
+            {% for r in reconocimientos %}
+            <div class="mb-3">
+                <strong>{{ r.tipo_reconocimiento }}</strong>
+                {% if r.fecha_reconocimiento %}
+                <small class="text-muted"> - {{ r.fecha_reconocimiento }}</small>
+                {% endif %}
+
+                {% if r.entidad_patrocinadora %}
+                <div class="text-muted">{{ r.entidad_patrocinadora }}</div>
+                {% endif %}
+
+                {% if r.descripcion_reconocimiento %}
+                <p class="mt-2">{{ r.descripcion_reconocimiento|linebreaksbr }}</p>
+                {% endif %}
+
+                {% if r.ruta_certificado %}
+                <a class="btn btn-sm btn-outline-secondary mt-1" target="_blank" href="{{ r.ruta_certificado.url }}">
+                    📎 Ver certificado
+                </a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay reconocimientos cargados.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- CURSOS REALIZADOS -->
+    <section id="cursos" class="mb-4 reveal">
+        <div class="card shadow p-4">
+            <h3 class="section-title">📚 Cursos Realizados</h3>
+
+            {% for c in cursos_realizados %}
+            <div class="mb-3">
+                <strong>{{ c.nombre_curso }}</strong>
+                <br>
+                <small class="text-muted">
+                {{ c.fecha_inicio|default:"" }}{% if c.fecha_inicio or c.fecha_fin %} - {% endif %}{{ c.fecha_fin|default:"" }}
+                {% if c.total_horas %} | {{ c.total_horas }} horas{% endif %}
+                </small>
+
+                {% if c.entidad_patrocinadora %}
+                <div class="text-muted">{{ c.entidad_patrocinadora }}</div>
+                {% endif %}
+
+                {% if c.descripcion_curso %}
+                <p class="mt-2">{{ c.descripcion_curso|linebreaksbr }}</p>
+                {% endif %}
+
+                {% if c.ruta_certificado %}
+                <a class="btn btn-sm btn-outline-secondary mt-1" target="_blank" href="{{ c.ruta_certificado.url }}">
+                    📎 Ver certificado
+                </a>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay cursos cargados.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- PRODUCTOS ACADÉMICOS -->
+    <section id="productos-academicos" class="mb-4 reveal">
+        <div class="card shadow p-4">
+            <h3 class="section-title">🎓 Productos Académicos</h3>
+
+            {% for p in productos_academicos %}
+            <div class="mb-3">
+                <strong>{{ p.nombre_recurso }}</strong>
+                {% if p.clasificador %}
+                <small class="text-muted"> - {{ p.clasificador }}</small>
+                {% endif %}
+                {% if p.descripcion %}
+                <p class="mt-2">{{ p.descripcion|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay productos académicos cargados.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- PRODUCTOS LABORALES -->
+    <section id="productos-laborales" class="mb-4 reveal">
+        <div class="card shadow p-4">
+            <h3 class="section-title">🧰 Productos Laborales</h3>
+
+            {% for p in productos_laborales %}
+            <div class="mb-3">
+                <strong>{{ p.nombre_producto }}</strong>
+                {% if p.fecha_producto %}
+                <small class="text-muted"> - {{ p.fecha_producto }}</small>
+                {% endif %}
+                {% if p.descripcion %}
+                <p class="mt-2">{{ p.descripcion|linebreaksbr }}</p>
+                {% endif %}
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay productos laborales cargados.</p>
+            {% endfor %}
         </div>
     </section>
 
@@ -1063,7 +1186,7 @@
 
             <div class="row g-4">
                 {% for item in ventas_garage %}
-                    {% if item.activar_para_que_se_vea_enfront %}
+                    {% if item.activar_para_que_se_vea_en_front %}
                     <div class="col-md-4 col-sm-6">
 
                         <div class="card h-100 shadow-sm">
@@ -1341,6 +1464,26 @@ function generatePDF() {
                 <div class="form-check">
                     <input class="form-check-input pdf-option" type="checkbox" value="#licencia" checked>
                     <label class="form-check-label">Licencia de conducir</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input pdf-option" type="checkbox" value="#reconocimientos" checked>
+                    <label class="form-check-label">Reconocimientos</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input pdf-option" type="checkbox" value="#cursos" checked>
+                    <label class="form-check-label">Cursos Realizados</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input pdf-option" type="checkbox" value="#productos-academicos" checked>
+                    <label class="form-check-label">Productos Académicos</label>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input pdf-option" type="checkbox" value="#productos-laborales" checked>
+                    <label class="form-check-label">Productos Laborales</label>
                 </div>
 
                 <div class="form-check">

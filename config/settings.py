@@ -11,18 +11,24 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 import os
 import dj_database_url
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path (__file__).resolve ().parent.parent
+load_dotenv(BASE_DIR / ".env")
 
 CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
 # ===== Cloudinary settings para PDFs públicos =====
 CLOUDINARY_STORAGE = {
-    "RESOURCE_TYPE": "raw",      # PDFs como archivos (no imágenes)
-    "SECURE": True,              # HTTPS
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+    "SECURE": True,
 }
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
