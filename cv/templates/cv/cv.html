@@ -1206,11 +1206,18 @@
                                     {{ item.nombre_del_producto }}
                                 </h5>
 
-                                <!-- Estado -->
-                                <span class="badge bg-info mb-2">
+                               <!-- Estado -->
+                                <span class="badge 
+                                    {% if item.estado_del_producto == 'Regular' %}
+                                        bg-danger
+                                    {% elif item.estado_del_producto == 'Excelente' %}
+                                        bg-success
+                                    {% else %}
+                                        bg-secondary
+                                    {% endif %}
+                                    mb-2">
                                     Estado: {{ item.estado_del_producto }}
                                 </span>
-
                                 <!-- Precio -->
                                 <p class="fs-5 fw-semibold mt-2">
                                     $ {{ item.valor_del_bien }}
