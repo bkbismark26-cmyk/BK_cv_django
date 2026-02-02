@@ -124,6 +124,13 @@ class Educacion(models.Model):
     descripcion = models.TextField(blank=True)
 
     activar_para_que_se_vea_en_front = models.BooleanField(default=True)
+    
+    def clean(self):
+        if self.fecha_inicio and self.fecha_fin:
+            if self.fecha_fin < self.fecha_inicio:
+                raise ValidationError({
+                    "fecha_fin": "La fecha de finalización no puede ser menor que la fecha de inicio."
+                })
 
     def __str__(self):
         return f"{self.titulo} - {self.institucion}"
@@ -159,6 +166,13 @@ class Experiencia(models.Model):
 
     class Meta:
         ordering = ['-fecha_inicio']
+    
+    def clean(self):
+        if self.fecha_inicio and self.fecha_fin:
+            if self.fecha_fin < self.fecha_inicio:
+                raise ValidationError({
+                    "fecha_fin": "La fecha de fin no puede ser menor que la fecha de inicio."
+                })
 
     def __str__(self):
         return f"{self.cargo} - {self.empresa}"
@@ -293,6 +307,13 @@ class CursoRealizado(models.Model):
 
     class Meta:
         ordering = ["-fecha_inicio"]
+        
+    def clean(self):
+        if self.fecha_inicio and self.fecha_fin:
+            if self.fecha_fin < self.fecha_inicio:
+                raise ValidationError({
+                    "fecha_fin": "La fecha de fin no puede ser anterior a la fecha de inicio."
+                })
 
     def __str__(self):
         return self.nombre_curso
