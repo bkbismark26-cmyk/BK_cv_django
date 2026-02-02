@@ -563,6 +563,56 @@
                 break-after: auto !important;
             }
 
+            /* ================= CERTIFICADOS: 1 POR HOJA ================= */
+
+            @media print {
+
+                #certificados .row,
+                #certificados .col-md-4,
+                #certificados .col-sm-6 {
+                    display: block !important;
+                    width: 100% !important;
+                }
+
+                #certificados .cert-card {
+                    width: 190mm !important;
+                    height: 277mm !important;
+
+                    margin: 0 auto !important;
+                    padding: 0 !important;
+
+                    display: flex !important;
+                    justify-content: center !important;
+                    align-items: center !important;
+
+                    page-break-before: always !important;
+                    page-break-after: always !important;
+                    break-before: page !important;
+                    break-after: page !important;
+
+                    box-shadow: none !important;
+                    border: none !important;
+                }
+
+                /* Quitar página extra al final */
+                #certificados .cert-card:last-child {
+                    page-break-after: auto !important;
+                    break-after: auto !important;
+                }
+
+                #certificados .cert-card img {
+                    width: 100% !important;
+                    height: 100% !important;
+                    object-fit: contain !important;
+                }
+
+                /* Ocultar título y texto en PDF */
+                #certificados .card-body,
+                #certificados .section-title {
+                    display: none !important;
+                }
+            }
+
         }
         
         .reference-item {
