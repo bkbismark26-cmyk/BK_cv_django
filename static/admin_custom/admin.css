@@ -1,0 +1,185 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background: url("/static/admin_custom/fondo.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* Oscurecer un poco para que se lea */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 0;
+}
+
+/* Asegura que el contenido esté arriba de la capa */
+#container, #header, #content, .breadcrumbs, .main, .content {
+  position: relative;
+  z-index: 1;
+}
+
+
+/* Capa oscura encima para legibilidad */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
+}
+
+/* Contenedores principales */
+#content,
+.module,
+.dashboard-module {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-radius: 12px;
+  border: 1px solid #1e293b;
+}
+
+/* Sidebar / módulos */
+.module h2,
+.module caption {
+  background: #0ea5e9;
+  color: white;
+}
+
+/* Panel acciones recientes */
+#recent-actions-module {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 12px;
+}
+
+/* Links */
+a {
+  color: #38bdf8;
+}
+
+/* =======================
+   COLORES DEL DASHBOARD
+   ======================= */
+
+/* Fondo módulos principales */
+.module,
+.dashboard-module,
+#recent-actions-module {
+  background: rgba(15, 23, 42, 0.92) !important;
+  border-radius: 14px;
+  border: 1px solid #1e293b;
+}
+
+/* Títulos de cada bloque */
+.module h2,
+.module caption {
+  background: linear-gradient(90deg, #0284c7, #0ea5e9) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Filas internas */
+.module table,
+.module ul {
+  background: transparent !important;
+}
+
+/* Links */
+.module a,
+#recent-actions-module a {
+  color: #38bdf8 !important;
+  font-weight: 500;
+}
+
+.module a:hover {
+  color: #7dd3fc !important;
+}
+
+/* Botón ADD */
+a.addlink {
+  color: #22c55e !important;
+  font-weight: bold;
+}
+
+/* Botón CHANGE */
+a.changelink {
+  color: #facc15 !important;
+  font-weight: bold;
+}
+
+/* Botón DELETE (si aparece) */
+a.deletelink {
+  color: #ef4444 !important;
+}
+
+/* Panel de acciones recientes */
+#recent-actions-module {
+  padding: 16px;
+}
+
+/* Encabezado "Recent actions" */
+#recent-actions-module h2 {
+  background: linear-gradient(90deg, #2563eb, #0ea5e9) !important;
+  color: white !important;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  background: rgba(2, 6, 23, 0.8) !important;
+  color: #cbd5f5;
+}
+
+/* Texto general */
+body, p, li {
+  color: #e5e7eb;
+}
+
+/* =======================
+   ERRORES EN COLOR NARANJA
+   ======================= */
+
+/* Mensaje principal de error (arriba del formulario) */
+.errornote {
+  background: rgba(249, 115, 22, 0.15) !important; /* naranja suave */
+  border: 1px solid #f97316 !important;
+  color: #fdba74 !important;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* Lista de errores */
+.errorlist {
+  color: #fb923c !important;
+  font-weight: 600;
+}
+
+.errorlist li {
+  background: rgba(249, 115, 22, 0.12);
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+
+/* Campos con error */
+.errors input,
+.errors select,
+.errors textarea {
+  border: 2px solid #f97316 !important;
+  background: rgba(249, 115, 22, 0.08) !important;
+  color: #fff;
+}
+
+/* Labels de error */
+.errors label {
+  color: #fb923c !important;
+  font-weight: bold;
+}
+
+/* Icono de error (si aparece) */
+.inline-error {
+  color: #f97316 !important;
+}

@@ -3,6 +3,10 @@ from django.contrib import admin
 from django.db import models
 from django.forms import Textarea
 
+admin.site.site_header = "Panel Administrativo BK"
+admin.site.site_title = "BK Admin"
+admin.site.index_title = "Administración del Sistema"
+
 from .models import (
     Perfil, Educacion, Experiencia, Habilidad, Certificado, Proyecto, Referencia, VentaGarage,
     Reconocimiento, CursoRealizado, ProductoAcademico, ProductoLaboral

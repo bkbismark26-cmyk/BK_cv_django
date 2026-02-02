@@ -1,0 +1,22 @@
+/* Fondo con imagen para el LOGIN */
+body.login {
+  background: url("/static/admin_custom/fondo.jpg") no-repeat center center fixed !important;
+  background-size: cover !important;
+}
+
+/* Capa oscura (más suave) para que se vea la imagen */
+body.login::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35); /* 👈 antes estaba muy fuerte (0.75) */
+  z-index: -1;
+}
+
+/* Caja del login */
+.login #container {
+  background: rgba(0,0,0,0.70);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 0 30px rgba(0,0,0,.6);
+}
