@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import (
-    Perfil, Educacion, Experiencia, Habilidad, Referencia, VentaGarage,
-    Reconocimiento, CursoRealizado, ProductoAcademico, ProductoLaboral
+    Perfil, Educacion, Experiencia, Habilidad, Certificado, Referencia, VentaGarage,
+    Reconocimiento, CursoRealizado, ProductoAcademico, ProductoLaboral, Proyecto
 )
 
 def cv_view(request):
@@ -24,13 +24,30 @@ def cv_view(request):
             "productos_laborales": [],
         })
 
-    educaciones = Educacion.objects.filter(perfil=perfil)
+    educaciones = Educacion.objects.filter(
+        perfil=perfil,
+        activar_para_que_se_vea_en_front=True
+    )
+    
     experiencias = Experiencia.objects.filter(
         perfil=perfil,
         activar_para_que_se_vea_en_front=True
     )
-    habilidades = Habilidad.objects.filter(perfil=perfil)
-    referencias = Referencia.objects.filter(perfil=perfil)
+    
+    habilidades = Habilidad.objects.filter(
+        perfil=perfil,
+        activar_para_que_se_vea_en_front=True
+    )
+    
+    certificados = Certificado.objects.filter(
+        perfil=perfil,
+        activar_para_que_se_vea_en_front=True
+    )
+    
+    referencias = Referencia.objects.filter(
+        perfil=perfil,
+        activar_para_que_se_vea_en_front=True
+    )
 
     ventas_garage = VentaGarage.objects.filter(
         perfil=perfil,
@@ -56,14 +73,18 @@ def cv_view(request):
         perfil=perfil,
         activar_para_que_se_vea_en_front=True
     )
+    
+    proyectos = Proyecto.objects.filter(
+        perfil=perfil
+    )
 
     context = {
         "perfil": perfil,
         "educaciones": educaciones,
         "experiencias": experiencias,
         "habilidades": habilidades,
-        "certificados": perfil.certificados.all(),
-        "proyectos": perfil.proyectos.all(),
+        "certificados": certificados,
+        "proyectos": proyectos,
         "referencias": referencias,
         "ventas_garage": ventas_garage,
         "reconocimientos": reconocimientos,

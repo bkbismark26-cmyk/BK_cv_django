@@ -2,6 +2,15 @@ from django.db import models
 from django.conf import settings
 from cloudinary_storage.storage import RawMediaCloudinaryStorage
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
+from datetime import date
+from django.core.validators import MinValueValidator
+
+def validar_fecha_no_futura(value):
+    if value and value.year > date.today().year:
+        raise ValidationError(
+            "No se permite ingresar una fecha mayor al año actual."
+        )
 
 class Perfil (models.Model):
     nnombres = models.CharField(max_length=60, null=True, blank=True)
@@ -23,7 +32,8 @@ class Perfil (models.Model):
 
     fecha_de_nacimiento = models.DateField(
         null=True,
-        blank=True
+        blank=True,
+        validators=[validar_fecha_no_futura]
     )
 
     sexo = models.CharField(
@@ -109,8 +119,8 @@ class Educacion(models.Model):
 
     institucion = models.CharField(max_length=150)
     titulo = models.CharField(max_length=150)
-    fecha_inicio = models.DateField()
-    fecha_fin = models.DateField(blank=True, null=True)
+    fecha_inicio = models.DateField(validators=[validar_fecha_no_futura])
+    fecha_fin = models.DateField(blank=True, null=True, validators=[validar_fecha_no_futura])
     descripcion = models.TextField(blank=True)
 
     activar_para_que_se_vea_en_front = models.BooleanField(default=True)
@@ -135,8 +145,8 @@ class Experiencia(models.Model):
     nombre_del_contacto_empresarial = models.CharField(max_length=100, null=True, blank=True)
     telefono_del_contacto_empresarial = models.CharField(max_length=60, null=True, blank=True)
 
-    fecha_inicio = models.DateField()                       # Excel: fechainiciogestion
-    fecha_fin = models.DateField(blank=True, null=True)     # Excel: fechafingestion
+    fecha_inicio = models.DateField(validators=[validar_fecha_no_futura])                       # Excel: fechainiciogestion
+    fecha_fin = models.DateField(blank=True, null=True, validators=[validar_fecha_no_futura])     # Excel: fechafingestion
     descripcion = models.TextField()                        # Excel: descripcionfunciones
 
     activar_para_que_se_vea_en_front = models.BooleanField(default=True)
@@ -163,7 +173,7 @@ class Reconocimiento(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name="reconocimientos")
 
     tipo_reconocimiento = models.CharField(max_length=20, choices=TIPO_CHOICES)
-    fecha_reconocimiento = models.DateField(null=True, blank=True)
+    fecha_reconocimiento = models.DateField(null=True, blank=True, validators=[validar_fecha_no_futura])
     descripcion_reconocimiento = models.TextField(blank=True)
 
     entidad_patrocinadora = models.CharField(max_length=150, null=True, blank=True)
@@ -206,7 +216,9 @@ class Certificado(models.Model):
     )
     titulo = models.CharField(max_length=200)
     institucion = models.CharField(max_length=200)
-    fecha = models.DateField()
+    fecha = models.DateField(validators=[validar_fecha_no_futura])
+    
+    activar_para_que_se_vea_en_front = models.BooleanField(default=True)
 
     # 🖼️ Imagen de presentación (preview)
     imagen = models.ImageField(
@@ -261,8 +273,8 @@ class CursoRealizado(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name="cursos_realizados")
 
     nombre_curso = models.CharField(max_length=200)
-    fecha_inicio = models.DateField(null=True, blank=True)
-    fecha_fin = models.DateField(null=True, blank=True)
+    fecha_inicio = models.DateField(null=True, blank=True, validators=[validar_fecha_no_futura])
+    fecha_fin = models.DateField(null=True, blank=True, validators=[validar_fecha_no_futura])
 
     total_horas = models.IntegerField(null=True, blank=True)
     descripcion_curso = models.TextField(blank=True)
@@ -301,7 +313,7 @@ class ProductoLaboral(models.Model):
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, related_name="productos_laborales")
 
     nombre_producto = models.CharField(max_length=200)
-    fecha_producto = models.DateField(null=True, blank=True)
+    fecha_producto = models.DateField(null=True, blank=True, validators=[validar_fecha_no_futura])
     descripcion = models.TextField(blank=True)
 
     activar_para_que_se_vea_en_front = models.BooleanField(default=True)
@@ -345,7 +357,7 @@ class VentaGarage(models.Model):
 
     descripcion = models.TextField(blank=True)  # Excel lo tiene
 
-    valor_del_bien = models.DecimalField(max_digits=8, decimal_places=2)
+    valor_del_bien = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)])
 
     imagen_del_producto = models.ImageField(upload_to='venta_garage/', blank=True, null=True)
 
